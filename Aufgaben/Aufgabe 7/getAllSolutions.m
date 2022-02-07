@@ -20,9 +20,18 @@ stepwidth = (max(rng) - min(rng)) / steps
 for k = 1:steps
     cs = vpasolve(eqn,x,[stepwidth * k - stepwidth ,stepwidth * k]);
     disp(cs)
-    if cs ~= 0 
-        solutions(k) = cs;
-    end
+    %Problem: Wenn vpasolve keine Lösung liefert, wird cs ein leeres Feld, dessen Wert nicht in die Lösungsmatrix "Solutions" eingesetzt werden kann. 
+    %Lösung schafft die Funktion "isempty", welche ein leeres Feld durch 0 ersetzt und null ist zumindest in diesem Beispiel eine Nullstelle...
+        if isempty(cs) 
+            cs = 0;
+        end
+    solutions(k) = cs;
+    
+    %ersetzte Zeilen:
+    %if cs ~= 0 
+     %   
+    %end
+    
 end
 
 % Am Ende werden alle Duplikate im Lösungsvektor entfernt
